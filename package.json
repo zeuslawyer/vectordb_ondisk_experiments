@@ -1,0 +1,21 @@
+{
+  "name": "vectordb_ondisk_experiments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node src/index.js"
+  },
+  "dependencies": {
+    "@lancedb/lancedb": "^0.17.0",
+    "@llamaindex/openai": "^0.4.0",
+    "apache-arrow": "^17.0.0",
+    "dotenv": "^16.4.5",
+    "llamaindex": "^0.11.1"
+  },
+  "keywords": [],
+  "author": "@zeuslawyer",
+  "license": "MIT",
+  "type": "module"
+}
