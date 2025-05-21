@@ -9,6 +9,22 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
+/**
+ * Load and split a document into chunks.
+ * @returns {Promise<Array>} An array of entries which has the following structure:
+ * {
+ *   chunkId: string,
+ *   metadata: {
+ *     sourceDocId: string,
+ *     sourceDocFilename: string,
+ *     sourceDocHash: string,
+ *   },
+ *   embedding: number[],
+ *   chunkType: string,
+ *   chunkText: string,
+ *   chunkHash: string,
+ * }
+ */
 export const loadAndSplitDoc = async () => {
   // Load essay from abramov.txt in Node
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +38,7 @@ export const loadAndSplitDoc = async () => {
     nodeId: path.basename(filepath),
     metadata: { source: path.basename(filepath) },
   });
+
   const pipeline = new IngestionPipeline({
     transformations: [
       new SentenceSplitter({ chunkSize: 1024, chunkOverlap: 100 }),
@@ -41,20 +58,23 @@ export const loadAndSplitDoc = async () => {
     console.log("Nodes written to `./outputs/llamaindex.nodes.example.json");
   });
 
-  /**
-   *  TODO resume here. Take the relevant items from each node in `nodes`. See llamaIndex.nodes.example.json for the structure.
-   * Recommend:
-   *    chunkId: n.id_
-   *    metadata: {
-   *        sourceDocId: n.relationships["SOURCE"].nodeId
-   *        sourceDocFilename: n.relationships["SOURCE"].metadata.source
-   *        sourceDocHash: n.relationships["SOURCE"].hash
-   *    }
-   *    embedding: n.embedding
-   *    chunkType: n.type
-   *    chunkText: n.text
-   *    chunkHash: n.hash
-   */
+  const entries = nodes.map(n => ({
+    chunkId: n.id_,
+    metadata: {
+      sourceDocId: n.relationships["SOURCE"].nodeId,
+      sourceDocFilename: n.relationships["SOURCE"].metadata.source,
+      sourceDocHash: n.relationships["SOURCE"].hash,
+    },
+    embedding: n.embedding,
+    chunkType: n.type,
+    chunkText: n.text,
+    chunkHash: n.hash,
+  }));
+
+  fs.writeFile("./src/outputs/llamaindex.entries.example.json", JSON.stringify(entries, null, 2)).then(() => {
+    console.log("Entries written to `./outputs/llamaindex.entries.example.json");
+  });
+  return entries;
 
   //   // initialize the VectorStoreIndex from nodes
   //   const index = await VectorStoreIndex.init({ nodes });

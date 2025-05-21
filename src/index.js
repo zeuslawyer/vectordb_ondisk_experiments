@@ -1,18 +1,15 @@
 import { connect, Index, Table } from "@lancedb/lancedb";
-import { loadAndSplitDoc } from "./steps/01_loadSplit.js";
-
+import { loadAndSplitDoc } from "./steps/01_loadSplitEmbed.js";
+import { storeEntries } from "./steps/02_store.js";
+import { readDB } from "./steps/03_readdb.js";
 import dotenv from "dotenv";
-
-import fs from "node:fs/promises";
-import path from "node:path";
-import { fileURLToPath } from "url";
 
 dotenv.config();
 
-const db = await connect("./data/lancedb");
-
 async function main() {
-  await loadAndSplitDoc();
+  const entries = await loadAndSplitDoc();
+  await storeEntries(entries);
+  // await readDB();
 }
 
 main().catch(console.error);

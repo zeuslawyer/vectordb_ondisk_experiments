@@ -23,6 +23,9 @@ importers:
       llamaindex:
         specifier: ^0.11.1
         version: 0.11.1(@llama-flow/core@0.4.1(p-retry@6.2.1)(zod@3.25.17))(tree-sitter@0.22.4)(web-tree-sitter@0.24.7)(zod@3.25.17)
+      openai:
+        specifier: ^4.100.0
+        version: 4.100.0(zod@3.25.17)
 
 packages:
 
@@ -88,6 +91,7 @@ packages:
   '@lancedb/lancedb@0.17.0':
     resolution: {integrity: sha512-AgQ4dqHBjoEpVdND5tmzhy0OJxwP4gJnEjOz3jVh7ip+8EYhR44wO6XbEhpxvvGfXyyepDrulo3bpL1323eNSg==}
     engines: {node: '>= 18'}
+    cpu: [x64, arm64]
     os: [darwin, linux, win32]
     peerDependencies:
       apache-arrow: '>=15.0.0 <=18.1.0'

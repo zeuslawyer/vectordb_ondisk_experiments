@@ -12,7 +12,8 @@
     "@llamaindex/openai": "^0.4.0",
     "apache-arrow": "^17.0.0",
     "dotenv": "^16.4.5",
-    "llamaindex": "^0.11.1"
+    "llamaindex": "^0.11.1",
+    "openai": "^4.100.0"
   },
   "keywords": [],
   "author": "@zeuslawyer",
