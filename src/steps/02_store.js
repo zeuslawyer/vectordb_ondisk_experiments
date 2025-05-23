@@ -1,4 +1,4 @@
-import { connect, Index } from "@lancedb/lancedb";
+import { connect } from "@lancedb/lancedb";
 
 export const db = await connect("./data/lancedb");
 

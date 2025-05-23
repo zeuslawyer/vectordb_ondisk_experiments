@@ -1,11 +1,10 @@
-import { connect, Index } from "@lancedb/lancedb";
+import { Index } from "@lancedb/lancedb";
 import "@lancedb/lancedb/embedding/openai";
 import { LanceSchema, getRegistry, register } from "@lancedb/lancedb/embedding";
 import { EmbeddingFunction } from "@lancedb/lancedb/embedding";
-import { Float, Float64, Utf8 } from "apache-arrow";
+
 import { db } from "./02_store.js";
 import fs from "fs";
-import { embedding } from "@lancedb/lancedb";
 
 /**
  * THIS FILE IS TO AVOID RUNNING LOAD AND EMBED AND INSTEAD LOAD THE SAVED ENTRIES FROM THE JSON AND STORE THEM IN THE DATABASE
