@@ -6,4 +6,5 @@
 
 # LanceDB
 ## quickstart
-1. https://lancedb.github.io/lancedb/basic/#installation
+1. API Reference: https://lancedb.github.io/lancedb/js/globals/ 
+2. https://lancedb.github.io/lancedb/basic/#installation
