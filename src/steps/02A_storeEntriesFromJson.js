@@ -17,6 +17,13 @@ export const storeEntriesFromJson = async () => {
   const entries = JSON.parse(fs.readFileSync("./src/outputs/llamaindex.entries.example.json", "utf8"));
   console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
 
+  for (const e of entries) {
+    if (!e.metadata || !e.metadata.sourceDocId) {
+      throw new Error(`Missing sourceDocId in chunkId: ${e.chunkId}`);
+    } else {
+      console.log(`chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`);
+    }
+  }
   const func = getRegistry().get("openai").create({ model: MODEL });
 
   const table = await db.createTable("docs", entries, {

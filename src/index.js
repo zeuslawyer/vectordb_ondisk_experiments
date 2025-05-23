@@ -11,7 +11,7 @@ dotenv.config();
 async function main() {
   // const entries = await loadAndSplitDoc();
   // await storeEntries(entries);
-  await storeEntriesFromJson();
+  // await storeEntriesFromJson();
   await readDB();
 }
 

@@ -16,7 +16,8 @@ export const readDB = async () => {
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  let queryEmbedding = await embedModel.getTextEmbedding(queryString);
+  console.time("queryEmbedding And Vector Search");
+  let queryEmbedding = await embedModel.getQueryEmbedding({ type: "text", text: queryString });
 
   // store to json
   fs.writeFileSync("./src/outputs/queryEmbedding.json", JSON.stringify(queryEmbedding, null, 2));
@@ -25,9 +26,9 @@ export const readDB = async () => {
   //   await table.createIndex("embedding");
   const rows = await table.search(queryEmbedding).limit(2).toArray();
   console.log(`${rows.length} rows returned in response to Query:   `);
-  const texts = rows.map((r, idx) => {
-    return { [`RETURNED-TEXT-${idx}`]: r.chunkText };
-  });
+  console.timeEnd("queryEmbedding And Vector Search");
+
   fs.writeFileSync("./src/outputs/returnedTexts.json", JSON.stringify(rows, null, 2));
+  console.log("returnedTexts.json written");
   return rows;
 };
