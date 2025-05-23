@@ -12,7 +12,7 @@ async function main() {
   // const entries = await loadAndSplitDoc();
   // await storeEntries(entries);
   await storeEntriesFromJson();
-  // await readDB();
+  await readDB();
 }
 
 main().catch(console.error);

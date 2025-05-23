@@ -1,4 +1,5 @@
 import { connect } from "@lancedb/lancedb";
+import { DocTableSchema } from "./arrow-schema.js";
 
 export const db = await connect("./data/lancedb");
 
@@ -7,18 +8,23 @@ export const db = await connect("./data/lancedb");
  * This will save on calls to the embedding model.
  */
 export const storeEntries = async entries => {
-  const table = await db.createTable("docs", tableData, {
+  console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
+
+  const table = await db.createTable("docs", entries, {
     mode: "overwrite",
+    schema: DocTableSchema,
   });
 
-  await table.createIndex("vectors", {
-    type: "ivfPq",
-    options: {
-      numPartitions: 10,
-      numSubVectors: 16,
-    },
+  await table.createIndex("vector", {
+    config: Index.hnswSq({
+      //   maxIterations: 2,
+      //   numSubVectors: 2,
+      //   numPartitions: 1,
+      distanceType: "cosine",
+      //   m: 1,
+    }),
   });
-  console.log(`Table ${table.name} created with ${table.numRows} rows`);
+  console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
 
   return table;
 };
