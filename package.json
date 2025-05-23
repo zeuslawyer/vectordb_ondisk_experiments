@@ -5,15 +5,25 @@
   "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node src/index.js"
+    "dev": "node src/index.js",
+    "ui": "vite ui --host --port 8880",
+    "ui:build": "vite build ui",
+    "api": "node ui/api-server.js",
+    "ui:start": "npm-run-all --parallel api ui"
   },
   "dependencies": {
     "@lancedb/lancedb": "^0.17.0",
     "@llamaindex/openai": "^0.4.0",
     "apache-arrow": "^17.0.0",
     "dotenv": "^16.4.5",
+    "express": "^4.18.0",
+    "cors": "^2.8.5",
     "llamaindex": "^0.11.1",
     "openai": "^4.100.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "npm-run-all": "^4.1.5"
   },
   "keywords": [],
   "author": "@zeuslawyer",
