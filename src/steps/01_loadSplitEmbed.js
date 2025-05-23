@@ -9,6 +9,8 @@ import { fileURLToPath } from "url";
 
 dotenv.config();
 
+export const MODEL = "text-embedding-3-small";
+
 /**
  * Load and split a document into chunks.
  * @returns {Promise<Array>} An array of entries which has the following structure:
@@ -25,10 +27,13 @@ dotenv.config();
  *   chunkHash: string,
  * }
  */
+
 export const loadAndSplitDoc = async () => {
-  // Load essay from abramov.txt in Node
+  const CHUNK_SIZE = 700;
+  const CHUNK_OVERLAP = 100;
+
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const filepath = path.resolve(currentDir, "../input/dummy-macos.md");
+  const filepath = path.resolve(currentDir, "../input/automation-llms-fulltext.txt");
 
   const sourceDoc = await fs.readFile(filepath, "utf-8");
 
@@ -41,22 +46,23 @@ export const loadAndSplitDoc = async () => {
 
   const pipeline = new IngestionPipeline({
     transformations: [
-      new SentenceSplitter({ chunkSize: 1024, chunkOverlap: 100 }),
+      new SentenceSplitter({ chunkSize: CHUNK_SIZE, chunkOverlap: CHUNK_OVERLAP }),
       new OpenAIEmbedding({
-        model: "text-embedding-3-small",
+        model: MODEL,
         apiKey: process.env.OPENAI_API_KEY,
       }),
     ],
   });
+
+  console.info("Running ingestion pipeline");
   console.time("Pipeline Run Time");
 
   const nodes = await pipeline.run({ documents: [document] });
 
   console.timeEnd("Pipeline Run Time");
 
-  fs.writeFile("./src/outputs/llamaindex.nodes.example.JSON", JSON.stringify(nodes, null, 2)).then(() => {
-    console.log("Nodes written to `./outputs/llamaindex.nodes.example.json");
-  });
+  await fs.writeFile("./src/outputs/llamaindex.nodes.example.JSON", JSON.stringify(nodes, null, 2));
+  console.log("Nodes written to `./outputs/llamaindex.nodes.example.json");
 
   const entries = nodes.map(n => ({
     chunkId: n.id_,
@@ -71,9 +77,9 @@ export const loadAndSplitDoc = async () => {
     chunkHash: n.hash,
   }));
 
-  fs.writeFile("./src/outputs/llamaindex.entries.example.json", JSON.stringify(entries, null, 2)).then(() => {
-    console.log("Entries written to `./outputs/llamaindex.entries.example.json");
-  });
+  await fs.writeFile("./src/outputs/entries.example.json", JSON.stringify(entries, null, 2));
+  console.log("Entries written to `./outputs/llamaindex.entries.example.json");
+
   return entries;
 
   //   // initialize the VectorStoreIndex from nodes

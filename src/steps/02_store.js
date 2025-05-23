@@ -1,4 +1,4 @@
-import { connect } from "@lancedb/lancedb";
+import { connect, Index } from "@lancedb/lancedb";
 import { DocTableSchema } from "./arrow-schema.js";
 
 export const db = await connect("./data/lancedb");
@@ -10,21 +10,26 @@ export const db = await connect("./data/lancedb");
 export const storeEntries = async entries => {
   console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
 
-  const table = await db.createTable("docs", entries, {
-    mode: "overwrite",
-    schema: DocTableSchema,
-  });
+  let table;
+  try {
+    table = await db.createTable("docs", entries, {
+      mode: "overwrite",
+      schema: DocTableSchema,
+    });
 
-  await table.createIndex("vector", {
-    config: Index.hnswSq({
-      //   maxIterations: 2,
-      //   numSubVectors: 2,
-      //   numPartitions: 1,
-      distanceType: "cosine",
-      //   m: 1,
-    }),
-  });
-  console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
+    await table.createIndex("vector", {
+      config: Index.hnswSq({
+        //   maxIterations: 2,
+        //   numSubVectors: 2,
+        //   numPartitions: 1,
+        distanceType: "cosine",
+        //   m: 1,
+      }),
+    });
+    console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
+  } catch (error) {
+    throw Error(`LanceDB Error: Error creating or indexing table: ${error}`);
+  }
 
   return table;
 };

@@ -12,9 +12,7 @@ import { DocTableSchema } from "./arrow-schema.js";
  */
 
 export const storeEntriesFromJson = async () => {
-  const MODEL = "text-embedding-3-small";
-
-  const entries = JSON.parse(fs.readFileSync("./src/outputs/llamaindex.entries.example.json", "utf8"));
+  const entries = JSON.parse(fs.readFileSync("./src/outputs/entries.example.json", "utf8"));
   console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
 
   for (const e of entries) {
@@ -24,23 +22,26 @@ export const storeEntriesFromJson = async () => {
       console.log(`chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`);
     }
   }
-  const func = getRegistry().get("openai").create({ model: MODEL });
 
-  const table = await db.createTable("docs", entries, {
-    mode: "overwrite",
-    schema: DocTableSchema,
-  });
+  let table;
+  try {
+    table = await db.createTable("docs", entries, {
+      mode: "overwrite",
+      schema: DocTableSchema,
+    });
 
-  await table.createIndex("vector", {
-    config: Index.hnswSq({
-      //   maxIterations: 2,
-      //   numSubVectors: 2,
-      //   numPartitions: 1,
-      distanceType: "cosine",
-      //   m: 1,
-    }),
-  });
-  console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
-
+    await table.createIndex("vector", {
+      config: Index.hnswSq({
+        //   maxIterations: 2,
+        //   numSubVectors: 2,
+        //   numPartitions: 1,
+        distanceType: "cosine", // TODO resume:  which distance type is best? so none of these look good!
+        //   m: 1,
+      }),
+    });
+    console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
+  } catch (error) {
+    throw Error(`LanceDB Error: Error creating or indexing table: ${error}`);
+  }
   return table;
 };
