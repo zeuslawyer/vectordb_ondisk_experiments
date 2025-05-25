@@ -30,16 +30,30 @@ export const storeEntriesFromJson = async () => {
       schema: DocTableSchema,
     });
 
-    await table.createIndex("vector", {
-      config: Index.hnswSq({
-        //   maxIterations: 2,
-        //   numSubVectors: 2,
-        //   numPartitions: 1,
-        distanceType: "cosine", // TODO resume:  which distance type is best? so none of these look good!
-        //   m: 1,
-      }),
-    });
-    console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
+    const numRows = await table.countRows();
+
+    if (numRows > 256) {
+      await table.createIndex("vector", {
+        config: Index.ivfPq({
+          maxIterations: 2,
+          distanceType: "cosine",
+          sampleRate: 75,
+        }),
+      });
+    } else {
+      console.log("Less than 256 entries so running HNSW-Sq indexing ", numRows);
+      await table.createIndex("vector", {
+        config: Index.hnswSq({
+          //   maxIterations: 2,
+          //   numSubVectors: 2,
+          //   numPartitions: 1,
+          distanceType: "cosine", // TODO resume:  which distance type is best? so none of these look good!
+          //   m: 1,
+        }),
+      });
+    }
+
+    console.log(`Table "${table.name}" created with ${await table.countRows()} rows`);
   } catch (error) {
     throw Error(`LanceDB Error: Error creating or indexing table: ${error}`);
   }

@@ -2,7 +2,8 @@
 
 ## Ingestion
 
-1. https://stackblitz.com/github/run-llama/LlamaIndexTS/tree/main/examples?file=index/ingestion/basicIngestion.ts
+1. https://ts.llamaindex.ai/docs/llamaindex/modules/data/ingestion_pipeline
+2. https://stackblitz.com/github/run-llama/LlamaIndexTS/tree/main/examples?file=index/ingestion/basicIngestion.ts
 
 # LanceDB
 

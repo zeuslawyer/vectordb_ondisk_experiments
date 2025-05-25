@@ -1,6 +1,7 @@
 import { connect, Index, Table } from "@lancedb/lancedb";
 import { OpenAIEmbedding } from "@llamaindex/openai";
-import { Document, IngestionPipeline, SentenceSplitter, VectorStoreIndex } from "llamaindex";
+import { Document, IngestionPipeline, SentenceSplitter } from "llamaindex";
+import { SimpleDirectoryReader } from "@llamaindex/readers/directory";
 import dotenv from "dotenv";
 
 import fs from "node:fs/promises";
@@ -30,10 +31,10 @@ export const MODEL = "text-embedding-3-small";
 
 export const loadAndSplitDoc = async () => {
   const CHUNK_SIZE = 700;
-  const CHUNK_OVERLAP = 100;
+  const CHUNK_OVERLAP = 50;
 
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const filepath = path.resolve(currentDir, "../input/automation-llms-fulltext.txt");
+  const filepath = path.resolve(currentDir, "../input/dummy-macos.md");
 
   const sourceDoc = await fs.readFile(filepath, "utf-8");
 

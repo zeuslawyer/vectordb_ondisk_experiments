@@ -14,16 +14,17 @@
   "dependencies": {
     "@lancedb/lancedb": "^0.17.0",
     "@llamaindex/openai": "^0.4.0",
+    "@llamaindex/readers": "^3.1.5",
     "apache-arrow": "^17.0.0",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.18.0",
-    "cors": "^2.8.5",
     "llamaindex": "^0.11.1",
     "openai": "^4.100.0"
   },
   "devDependencies": {
-    "vite": "^5.0.0",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "vite": "^5.0.0"
   },
   "keywords": [],
   "author": "@zeuslawyer",
