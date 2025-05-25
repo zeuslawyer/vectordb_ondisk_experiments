@@ -1,22 +1,52 @@
 [
   {
-    "text": "````markdown\n# Setting Up Git Commit Signing with GPG on macOS\n\nThis tutorial walks you through the process of setting up Git commit signing using GPG on your macOS system, ensuring your commits on platforms like GitHub are marked as \"Verified\".## 1.Key Concepts\n\n* **Commit Signing:** Cryptographically signing your Git commits to verify their origin and integrity.* **GPG (GNU Privacy Guard):** A tool for encryption and signing, used here to generate and manage your signing keys.* **SSH Keys:** Used for secure authentication with remote repositories (not directly for signing commits).## 2.Prerequisites\n\n* **Homebrew:** A package manager for macOS (you already have this installed).## 3.Installing GPG\n\n1.Open your Terminal.2.Run the command to install GPG:\n    ```bash\n    brew install gpg\n    ```\n\n## 4.Generating a New GPG Key Pair\n\n1.Run the following command:\n    ```bash\n    gpg --full-generate-key\n    ```\n2.Follow the prompts:\n    * Choose `RSA and RSA (default)`.* Enter keysize `4096`.* Decide on key validity (or press Enter for no expiration).* Enter your **Real name**.* Enter your **Email address** (the one associated with your GitHub account).* Add an optional **Comment**.* Confirm your details.* Create a strong **passphrase**.## 5.Listing Your GPG Keys and Finding Your Key ID\n\n1.List your secret keys to find the key ID you'll use for Git:\n    ```bash\n    gpg --list-secret-keys --keyid-format LONG\n    ```\n2.Look for the `sec` line.The key ID you need is the long hexadecimal number after `rsa4096/`.For example: `38BAB943F3C286E7`.## 6.Telling Git About Your GPG Key\n\n1.Configure Git to use your GPG signing key globally:\n    ```bash\n    git config --global user.signingkey <your_key_id>\n    ```\n    Replace `<your_key_id>` with the key ID you found in the previous step (e.g., `38BAB943F3C286E7`).2.Tell Git which program to use for signing:\n    ```bash\n    git config --global gpg.program gpg\n    ```\n\n## 7.Adding Your GPG Key to GitHub\n\n1.Export your public GPG key in the ASCII armored format:\n    ```bash\n    gpg --armor --export <your_email_address>\n    ```\n    Replace `<your_email_address>` with the email you used when generating the key.2.Copy the entire output, starting from `-----BEGIN PGP PUBLIC KEY BLOCK-----` and ending with `-----END PGP PUBLIC KEY BLOCK-----`.3.Go to your GitHub account settings:\n    * Click your profile picture, then \"Settings\".* In the sidebar, click \"SSH and GPG keys\".* Click \"New GPG key\" (or \"Add new GPG key\").* Paste your public key into the \"Key\" field.* Click \"Add GPG key\".## 8.Configuring Git to Automatically Sign Commits (Optional but Recommended)\n\n1.",
+    "text": "## 8. Configuring Git to Automatically Sign Commits (Optional but Recommended)\n\n1.  To automatically sign all your commits, run:\n    ```bash\n    git config --global commit.gpgsign true\n    ```\n    To disable this later, use:\n    ```bash\n    git config --global --unset commit.gpgsign\n    ```",
     "metadata": {
       "sourceDocId": null,
       "sourceDocFilename": null,
       "sourceDocHash": null
     },
-    "chunkId": "daa4cb0b-02a6-4745-80b1-854e30d43ac7",
-    "_distance": 0.9157006144523621
+    "chunkId": "6fa782c7-e694-4ed6-ae1c-09caec723565",
+    "_distance": 0.8164384961128235
   },
   {
-    "text": "* Paste your public key into the \"Key\" field.* Click \"Add GPG key\".## 8.Configuring Git to Automatically Sign Commits (Optional but Recommended)\n\n1.To automatically sign all your commits, run:\n    ```bash\n    git config --global commit.gpgsign true\n    ```\n    To disable this later, use:\n    ```bash\n    git config --global --unset commit.gpgsign\n    ```\n\n## 9.Troubleshooting Pinentry Issues (If You Encountered \"gpg failed to sign the data\")\n\nYou might have needed to install a pinentry program for GPG to handle passphrase prompts correctly on macOS.1.**Install `pinentry-mac` (recommended):**\n    ```bash\n    brew install pinentry-mac\n    ```\n2.**Configure GPG Agent to use `pinentry-mac`:**\n    * Create or edit `~/.gnupg/gpg-agent.conf`.* Add the line:\n        ```\n        pinentry-program /usr/local/bin/pinentry-mac\n        ```\n        (Adjust the path if necessary using `which pinentry-mac`).* Restart the GPG agent:\n        ```bash\n        killall gpg-agent\n        gpg-agent --daemon\n        ```\n\n## 10.Testing Your Signed Commits\n\n1.Make a change in one of your Git repositories.2.Commit the change:\n    ```bash\n    git commit -m \"Test signed commit\"\n    ```\n    You might be prompted for your GPG passphrase.3.Push the commit to GitHub.4.On GitHub, the commit should now display a \"Verified\" badge.You're all set!Your commits will now be cryptographically signed, adding a layer of trust to your contributions.````\n\nLet me know if you'd like any adjustments or further details in this tutorial\\!",
+    "text": "## 1. Key Concepts\n\n* **Commit Signing:** Cryptographically signing your Git commits to verify their origin and integrity.\n* **GPG (GNU Privacy Guard):** A tool for encryption and signing, used here to generate and manage your signing keys.\n* **SSH Keys:** Used for secure authentication with remote repositories (not directly for signing commits).",
     "metadata": {
       "sourceDocId": null,
       "sourceDocFilename": null,
       "sourceDocHash": null
     },
-    "chunkId": "eb497233-fe91-464e-bad4-ea97c39016ac",
-    "_distance": 0.9498780965805054
+    "chunkId": "c814c1e6-7933-4b12-b581-31268240df2d",
+    "_distance": 0.8682876825332642
+  },
+  {
+    "text": "# Setting Up Git Commit Signing with GPG on macOS\n\nThis tutorial walks you through the process of setting up Git commit signing using GPG on your macOS system, ensuring your commits on platforms like GitHub are marked as \"Verified\".",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "94a2458a-c289-4ee2-9b3d-c989319bc85b",
+    "_distance": 0.8691644072532654
+  },
+  {
+    "text": "## 5. Listing Your GPG Keys and Finding Your Key ID\n\n1.  List your secret keys to find the key ID you'll use for Git:\n    ```bash\n    gpg --list-secret-keys --keyid-format LONG\n    ```\n2.  Look for the `sec` line. The key ID you need is the long hexadecimal number after `rsa4096/`. For example: `38BAB943F3C286E7`.",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "ab50d63b-3c9c-491f-985a-b46ef01d6e49",
+    "_distance": 1.1690673828125
+  },
+  {
+    "text": "## 4. Generating a New GPG Key Pair\n\n1.  Run the following command:\n    ```bash\n    gpg --full-generate-key\n    ```\n2.  Follow the prompts:\n    * Choose `RSA and RSA (default)`.\n    * Enter keysize `4096`.\n    * Decide on key validity (or press Enter for no expiration).\n    * Enter your **Real name**.\n    * Enter your **Email address** (the one associated with your GitHub account).\n    * Add an optional **Comment**.\n    * Confirm your details.\n    * Create a strong **passphrase**.",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "08a9278b-ccf8-4e09-9544-d026a6f7736e",
+    "_distance": 1.2962877750396729
   }
 ]

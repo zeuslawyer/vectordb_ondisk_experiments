@@ -13,9 +13,10 @@ import { MODEL } from "./01_loadSplitEmbed.js";
 const currentDir = path.dirname(fileURLToPath(import.meta.url));
 const dirPath = path.resolve(currentDir, "../input");
 
-const loadDocsFromDirectory = async () => {
+export const loadDocsFromDirectory = async () => {
+  const TIMER_LABEL = "LoadFromDirectory Pipeline Run Time";
   console.info("Running ingestion pipeline");
-  console.time("Pipeline Run Time");
+  console.time(TIMER_LABEL);
 
   const reader = new SimpleDirectoryReader();
   const docs = await reader.loadData({
@@ -42,7 +43,10 @@ const loadDocsFromDirectory = async () => {
   const CHUNK_OVERLAP = 50;
   const pipeline = new IngestionPipeline({
     transformations: [
-      new SentenceSplitter({ chunkSize: CHUNK_SIZE, chunkOverlap: CHUNK_OVERLAP }),
+      new SentenceSplitter({
+        chunkSize: CHUNK_SIZE,
+        chunkOverlap: CHUNK_OVERLAP,
+      }),
       new OpenAIEmbedding({
         model: MODEL,
         apiKey: process.env.OPENAI_API_KEY,
@@ -51,9 +55,12 @@ const loadDocsFromDirectory = async () => {
   });
 
   const nodes = await pipeline.run({ documents: docsWithMetadata });
-  console.timeEnd("Pipeline Run Time");
+  console.timeEnd(TIMER_LABEL);
 
-  await fs.writeFile("./src/outputs/llamaindex.1ANodes.example.JSON", JSON.stringify(nodes, null, 2));
+  await fs.writeFile(
+    "./src/outputs/llamaindex.1ANodes.example.JSON",
+    JSON.stringify(nodes, null, 2)
+  );
   console.log("Nodes written to `./outputs/llamaindex.1ANodes.example.json");
 
   // Transform to entries to satisfy DB structure
@@ -70,13 +77,11 @@ const loadDocsFromDirectory = async () => {
     chunkHash: n.hash,
   }));
 
-  await fs.writeFile("./src/outputs/1A_entries.example.json", JSON.stringify(dbEntries, null, 2));
+  await fs.writeFile(
+    "./src/outputs/1A_entries.example.json",
+    JSON.stringify(dbEntries, null, 2)
+  );
   console.log("Entries written to `./outputs/1A_entries.example.json");
 
   return { dbEntries, docsWithMetadata };
 };
-
-loadDocsFromDirectory().then(({ dbEntries, docsWithMetadata }) => {
-  console.log("NUM OF LLAMAINDEX ENTRIES", dbEntries.length);
-  console.log("NUM OF LLAMAINDEX DOCS", docsWithMetadata.length);
-});

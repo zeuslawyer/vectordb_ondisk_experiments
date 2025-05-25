@@ -1,0 +1,59 @@
+{
+  "id": "resp_6832f656f2888191809eb5ed941105980b55fe6dc870b725",
+  "object": "response",
+  "created_at": 1748170326,
+  "status": "completed",
+  "background": false,
+  "error": null,
+  "incomplete_details": null,
+  "instructions": null,
+  "max_output_tokens": null,
+  "model": "gpt-4o-mini-2024-07-18",
+  "output": [
+    {
+      "id": "msg_6832f65742f88191844f86961912715b0b55fe6dc870b725",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "text": "To sign a Git commit, you would use the following command:\n\n```bash\ngit commit -S -m \"Your commit message\"\n```\n\nThe `-S` option tells Git to sign the commit with your GPG key. If you have configured Git to automatically sign commits, you can simply run:\n\n```bash\ngit commit -m \"Your commit message\"\n```\n\nThis will automatically sign the commit if you have set `commit.gpgsign` to `true` in your Git configuration."
+        }
+      ],
+      "role": "assistant"
+    }
+  ],
+  "parallel_tool_calls": true,
+  "previous_response_id": null,
+  "reasoning": {
+    "effort": null,
+    "summary": null
+  },
+  "service_tier": "default",
+  "store": true,
+  "temperature": 1,
+  "text": {
+    "format": {
+      "type": "text"
+    }
+  },
+  "tool_choice": "auto",
+  "tools": [],
+  "top_p": 1,
+  "truncation": "disabled",
+  "usage": {
+    "input_tokens": 489,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 102,
+    "output_tokens_details": {
+      "reasoning_tokens": 0
+    },
+    "total_tokens": 591
+  },
+  "user": null,
+  "metadata": {},
+  "output_text": "To sign a Git commit, you would use the following command:\n\n```bash\ngit commit -S -m \"Your commit message\"\n```\n\nThe `-S` option tells Git to sign the commit with your GPG key. If you have configured Git to automatically sign commits, you can simply run:\n\n```bash\ngit commit -m \"Your commit message\"\n```\n\nThis will automatically sign the commit if you have set `commit.gpgsign` to `true` in your Git configuration."
+}
