@@ -10,12 +10,16 @@ import dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
+  // Load Data
   // const entries = await loadAndSplitDoc();
-  // await storeEntries(entries);
+  // await loadDocsFromDirectory();
 
-  await loadDocsFromDirectory();
+  // Add data to vector store
+  // await storeEntries(entries);
   await storeEntriesFromJson();
-  await embedQueryAndRetrieve();
+
+  // Query and retrieve
+  // await embedQueryAndRetrieve();
 }
 
 main().catch(console.error);

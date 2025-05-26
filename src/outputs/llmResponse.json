@@ -1,0 +1,52 @@
+[
+  {
+    "text": "## When to use Chainlink Functions\n\nChainlink Functions enables a variety of use cases. Use Chainlink Functions to:\n\n- Connect to any public data. For example, you can connect your smart contracts to weather statistics for parametric insurance or real-time sports results for Dynamic NFTs.\n- Connect to public data and transform it before consumption. You could calculate Twitter sentiment after reading data from the Twitter API, or derive asset prices after reading price data from Chainlink Price Feeds.\n- Connect to a password-protected data source; from IoT devices like smartwatches to enterprise resource planning systems.\n- Connect to an external decentralized database, such as IPFS, to facilitate offchain processes for a dApp or build a low-cost governance voting system.\n- Connect to your Web2 application and build complex hybrid smart contracts.\n- Fetch data from almost any Web2 system such as AWS S3, Firebase, or Google Cloud Storage.\n\nYou can find several community examples at useChainlinkFunctions.com",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "e59624ad-1802-47fb-a18c-67642bdd0a6e",
+    "_distance": 0.5496482849121094
+  },
+  {
+    "text": "# Supported Networks\n\nRead the LINK Token Contracts page to learn where to get testnet LINK and ETH.\n\nTo use Chainlink Functions on certain networks, you may need to conduct token transfers. You can transfer tokens by using Chainlink CCIP, Transporter or third-party applications such as XSwap.",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "a5683c7d-1760-4c6d-8808-121845a15d26",
+    "_distance": 0.5701510906219482
+  },
+  {
+    "text": "## Supported networks\n\nSee the Supported Networks page to find a list of supported networks and contract addresses.",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "5b6198bc-e401-47a9-9058-69eb97fd22a5",
+    "_distance": 0.598770797252655
+  },
+  {
+    "text": "# Chainlink Functions Architecture",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "0e714a3a-a77f-4a81-abdd-a39ad52ba7d2",
+    "_distance": 0.6003846526145935
+  },
+  {
+    "text": "# Chainlink Functions Resources",
+    "metadata": {
+      "sourceDocId": null,
+      "sourceDocFilename": null,
+      "sourceDocHash": null
+    },
+    "chunkId": "5021fdeb-8b8e-4cf4-920e-ca1914523fe5",
+    "_distance": 0.602924108505249
+  }
+]

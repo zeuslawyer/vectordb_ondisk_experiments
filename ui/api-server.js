@@ -29,9 +29,9 @@ async function getAllEntries() {
     console.log("db.tableNames()", await db.tableNames());
 
     const table = await db.openTable(TABLE_NAME);
-    console.log("table", await table.display());
+    console.log("table:  ", await table.display(), await table.countRows());
 
-    const results = (await table.toArrow()).toArray();
+    const results = (await table.toArrow()).toArray(); // TODO Resume:  why does this show only 10 rows at a time?
     console.log("rows", results.length);
     return results;
   } catch (error) {

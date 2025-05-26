@@ -1,7 +1,7 @@
 {
-  "id": "resp_6833fb51858081989f692fa83ce64a18018b0ae128df883f",
+  "id": "resp_683405f2bbe48191a7c1f2b502732d5b01afa7feafa20ce0",
   "object": "response",
-  "created_at": 1748237137,
+  "created_at": 1748239858,
   "status": "completed",
   "background": false,
   "error": null,
@@ -11,14 +11,14 @@
   "model": "gpt-4o-mini-2024-07-18",
   "output": [
     {
-      "id": "msg_6833fb51f0d08198b6f4320146194cd9018b0ae128df883f",
+      "id": "msg_683405f34e9081919bc3fcfd7797e56801afa7feafa20ce0",
       "type": "message",
       "status": "completed",
       "content": [
         {
           "type": "output_text",
           "annotations": [],
-          "text": "The full form of GPG is \"GNU Privacy Guard.\""
+          "text": "The provided context does not specify the exact chains that are supported on Chainlink Functions. It mentions checking the \"Supported Networks\" page for a list of supported networks and contract addresses. For detailed information on the specific chains supported, you would need to refer to that page."
         }
       ],
       "role": "assistant"
@@ -43,17 +43,17 @@
   "top_p": 1,
   "truncation": "disabled",
   "usage": {
-    "input_tokens": 573,
+    "input_tokens": 360,
     "input_tokens_details": {
       "cached_tokens": 0
     },
-    "output_tokens": 13,
+    "output_tokens": 55,
     "output_tokens_details": {
       "reasoning_tokens": 0
     },
-    "total_tokens": 586
+    "total_tokens": 415
   },
   "user": null,
   "metadata": {},
-  "output_text": "The full form of GPG is \"GNU Privacy Guard.\""
+  "output_text": "The provided context does not specify the exact chains that are supported on Chainlink Functions. It mentions checking the \"Supported Networks\" page for a list of supported networks and contract addresses. For detailed information on the specific chains supported, you would need to refer to that page."
 }

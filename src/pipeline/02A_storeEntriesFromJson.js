@@ -33,6 +33,7 @@ export const storeEntriesFromJson = async () => {
     const numRows = await table.countRows();
 
     if (numRows > 256) {
+      console.log("more than 256 entries so running ivfPq indexing ", numRows);
       await table.createIndex("vector", {
         config: Index.ivfPq({
           maxIterations: 2,

@@ -4,7 +4,7 @@ import { embedQueryAndRetrieve } from "./pipeline/03_queryDb.js";
 // Create readline interface
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
-const topics = ["Git Commit Signing"];
+const topics = ["Git Commit Signing", "Chainlink Functions"];
 
 const concatTopics = (topics) => {
   if (topics.length === 0) throw new Error("No topics supported");

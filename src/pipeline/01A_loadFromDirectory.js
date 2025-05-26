@@ -15,7 +15,6 @@ const dirPath = path.resolve(currentDir, "../input");
 
 export const loadDocsFromDirectory = async () => {
   const TIMER_LABEL = "LoadFromDirectory Pipeline Run Time";
-  console.info("Running ingestion pipeline");
   console.time(TIMER_LABEL);
 
   const reader = new SimpleDirectoryReader();
@@ -39,6 +38,10 @@ export const loadDocsFromDirectory = async () => {
     });
   });
 
+  console.info(`docsWithMetadata total length : ${docsWithMetadata.length}\n`);
+
+  console.info("Running ingestion pipeline");
+
   const CHUNK_SIZE = 700;
   const CHUNK_OVERLAP = 50;
   const pipeline = new IngestionPipeline({
@@ -55,6 +58,8 @@ export const loadDocsFromDirectory = async () => {
   });
 
   const nodes = await pipeline.run({ documents: docsWithMetadata });
+  console.info(`total nodes length : ${nodes.length}\n`);
+
   console.timeEnd(TIMER_LABEL);
 
   await fs.writeFile(
@@ -78,6 +83,8 @@ export const loadDocsFromDirectory = async () => {
   }));
 
   await fs.writeFile("./src/outputs/1A_entries.example.json", JSON.stringify(dbEntries, null, 2));
+
+  console.log(`dbEntries total length : ${dbEntries.length}\n`);
   console.log("Entries written to `./outputs/1A_entries.example.json");
 
   return { dbEntries, docsWithMetadata };

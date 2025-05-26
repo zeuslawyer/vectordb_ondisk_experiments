@@ -8,6 +8,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const embedQueryAndRetrieve = async (query) => {
+  if (!query) {
+    console.log("\n*** No query provided*** \n");
+    return;
+  }
+
   const table = await db.openTable("docs");
   // console.log("TABLE SCHEMA:  ", await table.schema());
 
@@ -44,8 +49,8 @@ export const embedQueryAndRetrieve = async (query) => {
     };
   });
 
-  await fs.writeFileSync("./src/outputs/returnedTexts.json", JSON.stringify(textChunks, null, 2));
-  console.log("returnedTexts.json written");
+  await fs.writeFileSync("./src/outputs/llmResponse.json", JSON.stringify(textChunks, null, 2));
+  console.log("llmResponse.json written");
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
