@@ -1,10 +1,21 @@
 import readline from "readline";
-import { embedQueryAndRetrieve } from "./pipeline/03_queryDb.js";
+import { embedQueryAndRetrieve } from "./pipeline/03_queryDbAndRetrieve.js";
 
 // Create readline interface
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 const topics = ["Git Commit Signing", "Chainlink Functions"];
+
+const SYSTEM_PROMPT = `You are a helpful assistant. 
+    Answer questions based on the provided context. 
+    But if you dont have enough information for the answer you say so. 
+    Decline to answer rather than attempt an answer that may be incorrect.
+    Here are the rules you must follow:
+    1. Be brief. 
+    2. Return links where they're available.
+    3. If you can do a web search on those links and add to your context do so.
+    4. Where context sources  have confusing or seemingly conflicting information, prefer information contained in context sources that are structured (example JSON or in code snippets).
+    `;
 
 const concatTopics = (topics) => {
   if (topics.length === 0) throw new Error("No topics supported");
@@ -25,7 +36,9 @@ async function startChat(handleQuery) {
     while (true) {
       const query = await new Promise((resolve) => {
         rl.question(
-          `\nEnter your query on these topics: ${concatTopics(topics)} (or "exit" to quit)\n\n>>>`,
+          `\n*****************
+          Enter your query on these topics: ${concatTopics(topics)} (or "exit" to quit)
+          *****************n\n>>>`,
           resolve
         );
       });
@@ -52,8 +65,9 @@ async function startChat(handleQuery) {
 
 // Example usage (replace this with your actual function):
 const queryLLM = async (query) => {
-  const { aiResponse } = await embedQueryAndRetrieve(query);
-  return `Response from LLM: ${aiResponse.output[0].content[0].text}`;
+  const { aiResponse } = await embedQueryAndRetrieve(query, SYSTEM_PROMPT);
+  return ` **********Response from LLM:************
+   ${aiResponse.output[0].content[0].text}`;
 };
 
 // Start the chat

@@ -7,16 +7,23 @@ import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const embedQueryAndRetrieve = async (query) => {
+export const embedQueryAndRetrieve = async (query, systemPrompt) => {
   if (!query) {
     console.log("\n*** No query provided*** \n");
     return;
   }
 
+  const BASELINE_PROMPT = `You are a helpful assistant. 
+    Answer questions based on the provided context. 
+    But if you dont have enough information for the answer you say so. 
+    Decline to answer rather than attempt an answer that may be incorrect.`;
+
+  const sysPrompt = systemPrompt || BASELINE_PROMPT;
+
   const table = await db.openTable("docs");
   // console.log("TABLE SCHEMA:  ", await table.schema());
 
-  const RETRIEVE_LIMIT = 5;
+  const RETRIEVE_LIMIT = 8;
 
   const embedModel = new OpenAIEmbedding({
     model: MODEL,
@@ -61,8 +68,7 @@ export const embedQueryAndRetrieve = async (query) => {
     input: [
       {
         role: "system",
-        content:
-          "You are a helpful assistant that answers questions based on the provided context. But if you dont have enough information for the answer you say so rather than attempt an answer that may be incorrect",
+        content: sysPrompt,
       },
       {
         role: "user",
