@@ -12,22 +12,14 @@ import { DocTableSchema } from "./arrow-schema.js";
  */
 
 export const storeEntriesFromJson = async () => {
-  const entries = JSON.parse(
-    fs.readFileSync("./src/outputs/1A_entries.example.json", "utf8")
-  );
-  console.log(
-    "Entries length, and vector length",
-    entries.length,
-    entries[0].vector.length
-  );
+  const entries = JSON.parse(fs.readFileSync("./src/outputs/1A_entries.example.json", "utf8"));
+  console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
 
   for (const e of entries) {
     if (!e.metadata || !e.metadata.sourceDocId) {
       throw new Error(`Missing sourceDocId in chunkId: ${e.chunkId}`);
     } else {
-      console.log(
-        `Entry with chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`
-      );
+      console.log(`Entry with chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`);
     }
   }
 
@@ -49,10 +41,7 @@ export const storeEntriesFromJson = async () => {
         }),
       });
     } else {
-      console.log(
-        "Less than 256 entries so running HNSW-Sq indexing ",
-        numRows
-      );
+      console.log("Less than 256 entries so running HNSW-Sq indexing ", numRows);
       await table.createIndex("vector", {
         config: Index.hnswSq({
           //   maxIterations: 2,
@@ -64,9 +53,7 @@ export const storeEntriesFromJson = async () => {
       });
     }
 
-    console.log(
-      `Table "${table.name}" created with ${await table.countRows()} rows`
-    );
+    console.log(`Table "${table.name}" created with ${await table.countRows()} rows`);
   } catch (error) {
     throw Error(`LanceDB Error: Error creating or indexing table: ${error}`);
   }

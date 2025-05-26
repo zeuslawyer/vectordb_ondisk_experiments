@@ -65,7 +65,7 @@ export const loadAndSplitDoc = async () => {
   await fs.writeFile("./src/outputs/llamaindex.nodes.example.JSON", JSON.stringify(nodes, null, 2));
   console.log("Nodes written to `./outputs/llamaindex.nodes.example.json");
 
-  const entries = nodes.map(n => ({
+  const entries = nodes.map((n) => ({
     chunkId: n.id_,
     metadata: {
       sourceDocId: n.relationships["SOURCE"].nodeId,

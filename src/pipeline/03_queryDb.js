@@ -7,7 +7,7 @@ import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const embedQueryAndRetrieve = async query => {
+export const embedQueryAndRetrieve = async (query) => {
   const table = await db.openTable("docs");
   // console.log("TABLE SCHEMA:  ", await table.schema());
 
@@ -25,14 +25,17 @@ export const embedQueryAndRetrieve = async query => {
   });
 
   // store to json
-  await fs.writeFileSync("./src/outputs/queryEmbedding.json", JSON.stringify(queryEmbedding, null, 2));
+  await fs.writeFileSync(
+    "./src/outputs/queryEmbedding.json",
+    JSON.stringify(queryEmbedding, null, 2)
+  );
   console.log("queryEmbedding.json written");
 
   //   await table.createIndex("embedding");
   const rows = await table.search(queryEmbedding).limit(RETRIEVE_LIMIT).toArray();
   console.log(`${rows.length} rows returned in response to Query:   `);
 
-  let textChunks = rows.map(row => {
+  let textChunks = rows.map((row) => {
     return {
       text: row.chunkText,
       metadata: row.metadata,
@@ -59,7 +62,7 @@ export const embedQueryAndRetrieve = async query => {
       {
         role: "user",
         content: `Based on the following context, answer this question: 
-          ${query}\n\nContext:\n${textChunks.map(chunk => chunk.text).join("\n\n")}`,
+          ${query}\n\nContext:\n${textChunks.map((chunk) => chunk.text).join("\n\n")}`,
       },
     ],
   });

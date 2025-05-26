@@ -140,7 +140,7 @@ function formatCellValue(key, value) {
   if (Array.isArray(value) && key.toLowerCase().includes("vector")) {
     return `[${value
       .slice(0, 5)
-      .map(v => v.toFixed(3))
+      .map((v) => v.toFixed(3))
       .join(", ")}${value.length > 5 ? "..." : ""}]`;
   }
 
@@ -188,7 +188,7 @@ function populateTable(data) {
 
   // Create table headers
   tableHeaderEl.innerHTML = "";
-  headers.forEach(header => {
+  headers.forEach((header) => {
     const th = document.createElement("th");
     th.textContent = header;
     tableHeaderEl.appendChild(th);
@@ -196,9 +196,9 @@ function populateTable(data) {
 
   // Create table rows
   tableBodyEl.innerHTML = "";
-  data.forEach(row => {
+  data.forEach((row) => {
     const tr = document.createElement("tr");
-    headers.forEach(header => {
+    headers.forEach((header) => {
       const td = document.createElement("td");
       const value = row[header];
       const cellClass = getCellClass(header, value);

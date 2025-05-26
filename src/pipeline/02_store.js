@@ -7,19 +7,13 @@ export const db = await connect("./data/lancedb");
  * Consider using 2A_storeEntriesFromJson.js instead,if you have the JSON file of db entries.
  * This will save on calls to the embedding model.
  */
-export const storeEntries = async entries => {
-  console.log(
-    "Entries length, and vector length",
-    entries.length,
-    entries[0].vector.length
-  );
+export const storeEntries = async (entries) => {
+  console.log("Entries length, and vector length", entries.length, entries[0].vector.length);
   for (const e of entries) {
     if (!e.metadata || !e.metadata.sourceDocId) {
       throw new Error(`Missing sourceDocId in chunkId: ${e.chunkId}`);
     } else {
-      console.log(
-        `Entry with chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`
-      );
+      console.log(`Entry with chunkId: ${e.chunkId} has sourceDocId: ${e.metadata.sourceDocId}`);
     }
   }
 
@@ -39,9 +33,7 @@ export const storeEntries = async entries => {
         //   m: 1,
       }),
     });
-    console.log(
-      `Table ${table.name} created with ${await table.countRows()} rows`
-    );
+    console.log(`Table ${table.name} created with ${await table.countRows()} rows`);
   } catch (error) {
     throw Error(`LanceDB Error: Error creating or indexing table: ${error}`);
   }

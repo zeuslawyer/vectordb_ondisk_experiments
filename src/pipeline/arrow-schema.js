@@ -10,7 +10,11 @@ const metadataStruct = new Struct([
 ]);
 
 // Define vector as FixedSizeList of 1536 Float32 values as we're using OpenAI's text-embedding-3-small model
-const fixedSizeVectorField = new Field("vector", new FixedSizeList(1536, new Field("item", new Float32())), false);
+const fixedSizeVectorField = new Field(
+  "vector",
+  new FixedSizeList(1536, new Field("item", new Float32())),
+  false
+);
 
 // Define the complete schema
 export const DocTableSchema = new Schema([

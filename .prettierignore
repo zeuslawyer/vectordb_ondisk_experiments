@@ -1,6 +1,9 @@
 node_modules
+data
+
 dist
 build
+
 coverage
 .next
 .cache 

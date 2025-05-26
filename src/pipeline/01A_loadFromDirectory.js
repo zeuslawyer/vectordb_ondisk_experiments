@@ -30,7 +30,7 @@ export const loadDocsFromDirectory = async () => {
     defaultReader: new MarkdownReader(),
   });
 
-  const docsWithMetadata = docs.map(d => {
+  const docsWithMetadata = docs.map((d) => {
     return new Document({
       text: d.text,
       metadata: {
@@ -64,7 +64,7 @@ export const loadDocsFromDirectory = async () => {
   console.log("Nodes written to `./outputs/llamaindex.1ANodes.example.json");
 
   // Transform to entries to satisfy DB structure
-  const dbEntries = nodes.map(n => ({
+  const dbEntries = nodes.map((n) => ({
     chunkId: n.id_,
     metadata: {
       sourceDocId: n.relationships["SOURCE"].nodeId,
@@ -77,10 +77,7 @@ export const loadDocsFromDirectory = async () => {
     chunkHash: n.hash,
   }));
 
-  await fs.writeFile(
-    "./src/outputs/1A_entries.example.json",
-    JSON.stringify(dbEntries, null, 2)
-  );
+  await fs.writeFile("./src/outputs/1A_entries.example.json", JSON.stringify(dbEntries, null, 2));
   console.log("Entries written to `./outputs/1A_entries.example.json");
 
   return { dbEntries, docsWithMetadata };

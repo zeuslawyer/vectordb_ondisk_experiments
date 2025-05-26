@@ -6,7 +6,7 @@ const rl = readline.createInterface({ input: process.stdin, output: process.stdo
 
 const topics = ["Git Commit Signing"];
 
-const concatTopics = topics => {
+const concatTopics = (topics) => {
   if (topics.length === 0) throw new Error("No topics supported");
   if (topics.length === 1) return topics[0];
 
@@ -23,8 +23,11 @@ const concatTopics = topics => {
 async function startChat(handleQuery) {
   try {
     while (true) {
-      const query = await new Promise(resolve => {
-        rl.question(`\nEnter your query on these topics: ${concatTopics(topics)} (or "exit" to quit)\n\n>>>`, resolve);
+      const query = await new Promise((resolve) => {
+        rl.question(
+          `\nEnter your query on these topics: ${concatTopics(topics)} (or "exit" to quit)\n\n>>>`,
+          resolve
+        );
       });
 
       // Check for exit command
@@ -48,7 +51,7 @@ async function startChat(handleQuery) {
 }
 
 // Example usage (replace this with your actual function):
-const queryLLM = async query => {
+const queryLLM = async (query) => {
   const { aiResponse } = await embedQueryAndRetrieve(query);
   return `Response from LLM: ${aiResponse.output[0].content[0].text}`;
 };
