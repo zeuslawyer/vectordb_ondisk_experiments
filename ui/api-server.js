@@ -13,9 +13,6 @@ const __dirname = path.dirname(__filename);
 
 // Database configuration - resolve path relative to this file
 const DB_PATH = path.resolve(__dirname, "../data/lancedb");
-const TABLE_NAME = "docs";
-console.log("Resolved DB path:", DB_PATH);
-
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -28,11 +25,22 @@ async function getAllEntries() {
     const db = await lancedb.connect(DB_PATH);
     console.log("db.tableNames()", await db.tableNames());
 
-    const table = await db.openTable(TABLE_NAME);
-    console.log("table:  ", await table.display(), await table.countRows());
+    const table = await db.openTable("docs");
+    if (table.countRows() === 0) {
+      throw new Error("No data in table: ", table.name);
+    }
 
-    const results = (await table.toArrow()).toArray(); // TODO Resume:  why does this show only 10 rows at a time?
-    console.log("rows", results.length);
+    const arrowTable = await table.toArrow();
+
+    console.log(
+      "Table details:  ",
+      await table.display(),
+      await table.countRows()
+      // await arrowTable.numRows()
+    );
+
+    const results = await table.query().limit(150).toArray();
+    console.log("rows fetched: ", results.length);
     return results;
   } catch (error) {
     const message = "Error reading from LanceDB: " + error.message;
