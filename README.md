@@ -1,4 +1,8 @@
-# How to Work The Lance DB Scripts
+# Quick start
+
+`pnpm run start:chat`. The topics supported are in `./src/chat.js`. If updated correctly you can ask from those topics.
+
+# How to Work The Lance DB PipelineScripts
 
 `./src/index.js` has commented out methods inside `main()`. Comment in and out as needed then run `node src/index`
 
@@ -14,7 +18,7 @@ Recommend Running the functions in the following way inside `./src/index.js`:
 
 1. Set the `DB_PATH` and the `TABLE_NAME` constants in the `./ui/api-server.js` file to match the lancedb setup.
 
-2. Run `pnpm ui:start` to start both the API server and UI server. This will:
+2. Run `pnpm run start:ui` to start both the API server and UI server. This will:
 
    - Start the API server on port 8888 to serve LanceDB data
    - Start the Vite dev server on port 8880 to serve the UI

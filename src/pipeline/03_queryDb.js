@@ -7,11 +7,10 @@ import fs from "fs";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const readDB = async () => {
+export const embedQueryAndRetrieve = async query => {
   const table = await db.openTable("docs");
   // console.log("TABLE SCHEMA:  ", await table.schema());
 
-  const QUERY = "what git command do i need to sign a git commit?";
   const RETRIEVE_LIMIT = 5;
 
   const embedModel = new OpenAIEmbedding({
@@ -22,21 +21,15 @@ export const readDB = async () => {
   console.time("queryEmbedding And Vector Search");
   let queryEmbedding = await embedModel.getQueryEmbedding({
     type: "text",
-    text: QUERY,
+    text: query,
   });
 
   // store to json
-  await fs.writeFileSync(
-    "./src/outputs/queryEmbedding.json",
-    JSON.stringify(queryEmbedding, null, 2)
-  );
+  await fs.writeFileSync("./src/outputs/queryEmbedding.json", JSON.stringify(queryEmbedding, null, 2));
   console.log("queryEmbedding.json written");
 
   //   await table.createIndex("embedding");
-  const rows = await table
-    .search(queryEmbedding)
-    .limit(RETRIEVE_LIMIT)
-    .toArray();
+  const rows = await table.search(queryEmbedding).limit(RETRIEVE_LIMIT).toArray();
   console.log(`${rows.length} rows returned in response to Query:   `);
 
   let textChunks = rows.map(row => {
@@ -48,17 +41,14 @@ export const readDB = async () => {
     };
   });
 
-  await fs.writeFileSync(
-    "./src/outputs/returnedTexts.json",
-    JSON.stringify(textChunks, null, 2)
-  );
+  await fs.writeFileSync("./src/outputs/returnedTexts.json", JSON.stringify(textChunks, null, 2));
   console.log("returnedTexts.json written");
 
   const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY,
   });
 
-  const response = await openai.responses.create({
+  const aiResponse = await openai.responses.create({
     model: "gpt-4o-mini",
     input: [
       {
@@ -69,23 +59,18 @@ export const readDB = async () => {
       {
         role: "user",
         content: `Based on the following context, answer this question: 
-          ${QUERY}\n\nContext:\n${textChunks
-          .map(chunk => chunk.text)
-          .join("\n\n")}`,
+          ${query}\n\nContext:\n${textChunks.map(chunk => chunk.text).join("\n\n")}`,
       },
     ],
   });
 
-  fs.writeFileSync(
-    "./src/outputs/aiResponse.json",
-    JSON.stringify(response, null, 2)
-  );
+  fs.writeFileSync("./src/outputs/aiResponse.json", JSON.stringify(aiResponse, null, 2));
   console.log("aiResponse.json written");
 
-  console.log("AI Response:", response.output[0].content[0].text);
-  if (response.reasoning) {
-    console.log("\nReasoning Summary:", response.reasoning.summary || "Null");
+  console.log("AI Response:", aiResponse.output[0].content[0].text);
+  if (aiResponse.reasoning) {
+    console.log("\nReasoning Summary:", aiResponse.reasoning.summary || "Null");
   }
 
-  return { rows, aiResponse: response };
+  return { rows, aiResponse };
 };

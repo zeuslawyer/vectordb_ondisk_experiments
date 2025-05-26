@@ -9,7 +9,8 @@
     "ui": "vite ui --host --port 8880",
     "ui:build": "vite build ui",
     "api": "node ui/api-server.js",
-    "ui:start": "npm-run-all --parallel api ui"
+    "start:ui": "npm-run-all --parallel api ui",
+    "start:chat": "node src/chat.js"
   },
   "dependencies": {
     "@lancedb/lancedb": "^0.17.0",
