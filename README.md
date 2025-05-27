@@ -1,5 +1,7 @@
 # Quick start
 
+create a `.env` file and save your OpenAI API key. `OPENAI_API_KEY=${OPENAI_API_KEY}`
+
 `pnpm run start:chat`. The topics supported are in `./src/chat.js`. If updated correctly you can ask from those topics.
 
 # How to Work The Lance DB PipelineScripts
