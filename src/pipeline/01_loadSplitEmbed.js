@@ -34,7 +34,7 @@ export const loadAndSplitDoc = async () => {
   const CHUNK_OVERLAP = 50;
 
   const currentDir = path.dirname(fileURLToPath(import.meta.url));
-  const filepath = path.resolve(currentDir, "../input/dummy-macos.md");
+  const filepath = path.resolve(currentDir, "../input/chainlink.ccip-llms-fulltext.md");
 
   const sourceDoc = await fs.readFile(filepath, "utf-8");
 

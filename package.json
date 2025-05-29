@@ -23,7 +23,8 @@
     "dotenv": "^16.4.5",
     "express": "^4.18.0",
     "llamaindex": "^0.11.1",
-    "openai": "^4.100.0"
+    "openai": "^4.100.0",
+    "vectra": "^0.11.1"
   },
   "devDependencies": {
     "concurrently": "^9.1.2",
